@@ -34,6 +34,9 @@ Inline Keyboard Markup 成功
 
 下次研究 Keyboare Markup
 
+# 2021/08/15
+輸入"help"會顯示功能選單。
+目前只有'課程資訊查詢'有回應。
 
 
 
