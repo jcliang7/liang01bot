@@ -1,5 +1,6 @@
 
-const { router, telegram, text } = require('bottender/router');
+const { router, telegram, text, route } = require('bottender/router');
+const { chain } = require('bottender');
 async function DefaultAction(context) {
   await context.sendText('輸入\"help\"會顯示功能選單。\n目前只有\'課程資訊查詢\'有回應。');
 }
@@ -71,13 +72,21 @@ async function ShowKB(context) {
   await context.sendText('Keyboard 出來吧！', { replyMarkup });
 };
 
-
-module.exports = async function App(context) {
-
+function RuleBased(context, {next}){
   return router([
     text('課程資訊查詢', ShowInlineKB),
     text('help', ShowKB),
-    telegram.any(DefaultAction),
+    // return the `next` action
+    route('*', next),
+  ]);
+}
+
+
+module.exports = async function App(context) {
+
+  return chain([
+    RuleBased,
+    DefaultAction
   ]);
 
 
