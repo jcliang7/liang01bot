@@ -4,6 +4,14 @@ const { chain } = require('bottender');
 async function DefaultAction(context) {
   await context.sendText('輸入\"help\"會顯示功能選單。\n目前只有\'課程資訊查詢\'有回應。');
 }
+const qnaMaker = require('@bottender/qna-maker');
+const QnaMaker = qnaMaker({
+  resourceName: process.env.RESOURCE_NAME,
+  knowledgeBaseId: process.env.KNOWLEDGE_BASE_ID,
+  endpointKey: process.env.ENDPOINT_KEY,
+  scoreThreshold: 70,
+});
+
 
 //顯示Inline kyeboard 的 function
 async function ShowInlineKB(context) {
@@ -51,15 +59,15 @@ async function ShowKB(context) {
       ],
       [
         {
-          text:'作業相關查詢',
+          text: '作業相關查詢',
           //查詢作業及分數等基本資料。
         },
         {
-          text:'作業參考答案',
+          text: '作業參考答案',
           //對於已過期的程式作業，提供解題思維及相關的參考答案。
         },
         {
-          text:'使用者回饋',
+          text: '使用者回饋',
           //讓使用者回饋使用心得、使用建議及系統錯誤。
         }
 
@@ -70,7 +78,28 @@ async function ShowKB(context) {
     selective: false
 
   };
-  await context.sendText('Keyboard 出來吧！', { replyMarkup });
+  await context.sendText('請選擇您要查詢的項目：', { replyMarkup });
+};
+
+async function ShowCourseInfoKB(context) {
+  const replyMarkup = {
+    keyboard: [
+      [
+        { text: '老師資訊' },
+        { text: '助教資訊' },
+        { text: '計分方式' },
+        { text: '實體/遠距日期' },
+      ],
+      [
+        { text: '回主選單'}
+      ]
+    ],
+    resizeKeyboard: true,
+    oneTimeKeyboard: true,
+    selective: false
+  };
+  await context.sendText('計算機概論(一）\n授課教師：王佳盈\n開課時間：\n電機一甲/1-234/科學館B06\n電機一乙/2-234/科學館B06', { replyMarkup })
+  //await context.sendText('test', { replyMarkup });
 };
 async function showSyntaxHint(context) {
   await context.sendText('以＄開頭，後面輸入想要查詢的語法\n ex:$print');
@@ -78,11 +107,13 @@ async function showSyntaxHint(context) {
 async function showSyntax(context) {
   await context.sendPhoto('https://i.imgur.com/r5PdC4o.png');
 }
-function RuleBased(context, {next}){
+function RuleBased(context, { next }) {
   return router([
-    text('課程資訊查詢', ShowInlineKB),
+    //text('課程資訊查詢', ShowInlineKB),
+    text('課程資訊查詢', ShowCourseInfoKB),
     text('語法解說', showSyntaxHint),
     text('help', ShowKB),
+    text('回主選單', ShowKB),
     // return the `next` action
     text(/^\$/, showSyntax),
     route('*', next),
@@ -94,6 +125,7 @@ module.exports = async function App(context) {
 
   return chain([
     RuleBased,
+    QnaMaker,
     DefaultAction
   ]);
 
