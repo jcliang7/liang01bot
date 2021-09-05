@@ -39,6 +39,9 @@ Inline Keyboard Markup 成功
 目前只有'課程資訊查詢'有回應。
 
 
+# 2021/09/05
+-加入QnA Maker
+-"課程資訊查詢" 選單
 
 This project was bootstrapped with
 [Bottender](https://github.com/Yoctol/bottender) init script.
