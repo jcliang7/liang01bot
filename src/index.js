@@ -122,12 +122,24 @@ function RuleBased(context, { next }) {
 
 
 module.exports = async function App(context) {
+  // context.getChat().then(result => {
+  //   console.log(result);
+  // });
 
+  // context.getChatMembersCount().then(result =>{
+  //   console.log(result);
+  // });
+
+  // context.getChatMember(1045004206).then(result => {
+  //   console.log(result);
+  // });
+  console.log(context.event.message.chat);
   return chain([
     RuleBased,
     QnaMaker,
     DefaultAction
   ]);
+
 
 
 
