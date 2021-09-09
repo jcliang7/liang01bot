@@ -133,7 +133,11 @@ module.exports = async function App(context) {
   // context.getChatMember(1045004206).then(result => {
   //   console.log(result);
   // });
-  console.log(context.event.message.chat);
+  if (context.event.isMessage){
+    //console.log("This is a message\n");
+    console.log(context.event.message);
+  }
+  
   return chain([
     RuleBased,
     QnaMaker,
