@@ -11,7 +11,7 @@ const QnaMaker = qnaMaker({
   endpointKey: process.env.ENDPOINT_KEY,
   scoreThreshold: 70,
 });
-
+const { fireDB } = require('./firebase')
 
 //顯示Inline kyeboard 的 function
 async function ShowInlineKB(context) {
@@ -122,20 +122,18 @@ function RuleBased(context, { next }) {
 
 
 module.exports = async function App(context) {
-  // context.getChat().then(result => {
-  //   console.log(result);
-  // });
-
-  // context.getChatMembersCount().then(result =>{
-  //   console.log(result);
-  // });
-
-  // context.getChatMember(1045004206).then(result => {
-  //   console.log(result);
-  // });
   if (context.event.isMessage){
-    //console.log("This is a message\n");
-    console.log(context.event.message);
+    let orimsg = context.event.message;
+    let msg = {
+      messageId: orimsg.messageId,
+      userid: orimsg.from.id,
+      firstName: orimsg.from.firstName,
+      lastName: orimsg.from.lastName,
+      date: orimsg.date,
+      text: orimsg.text
+    }
+     //console.log(msg);
+    fireDB.collection("comms").doc().set(msg)
   }
   
   return chain([
