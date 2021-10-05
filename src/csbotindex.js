@@ -4,7 +4,8 @@ const { chain } = require('bottender');
 async function DefaultAction(context) {
   await context.sendText('輸入\"help\"會顯示功能選單。\n目前只有\'課程資訊查詢\'有回應。');
 }
-const qnaMaker = require('@bottender/qna-maker');
+// const qnaMaker = require('@bottender/qna-maker');
+const qnaMaker = require('./my-qna-maker');
 const QnaMaker = qnaMaker({
   resourceName: process.env.RESOURCE_NAME,
   knowledgeBaseId: process.env.KNOWLEDGE_BASE_ID,
@@ -122,19 +123,24 @@ function RuleBased(context, { next }) {
 
 
 module.exports = async function App(context) {
-  if (context.event.isMessage){
-    let orimsg = context.event.message;
-    let msg = {
-      messageId: orimsg.messageId,
-      userid: orimsg.from.id,
-      firstName: orimsg.from.firstName,
-      lastName: orimsg.from.lastName,
-      date: orimsg.date,
-      text: orimsg.text
-    }
-     //console.log(msg);
-    fireDB.collection("comms").doc().set(msg)
+  try {
+    if (context.event.isMessage){
+        let orimsg = context.event.message;
+        let msg = {
+          messageId: orimsg.messageId,
+          userid: orimsg.from.id,
+          firstName: orimsg.from.firstName,
+          lastName: orimsg.from.lastName,
+          date: orimsg.date,
+          text: orimsg.text
+        }
+         //console.log(msg);
+        fireDB.collection("comms").doc().set(msg)
+      }  
+  } catch (error) {//Write code here when use console mode to do test.
+      //console.log("THISerror");
   }
+    
   
   return chain([
     RuleBased,

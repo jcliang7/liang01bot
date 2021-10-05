@@ -6,16 +6,23 @@ async function DefaultAction(context) {
 }
 
 
-async function toBase64(context) {
+async function stringToBase64(context) {
     inputStr = context.event.text;
-    var Buffer = require('buffer').Buffer;
-    var buf = Buffer.from('Hello, world');
+    console.log(inputStr);
+    let Buffer = require('buffer').Buffer;
+    let buf = Buffer.from(inputStr);
     outStr = buf.toString('base64');
 
     await context.sendText(outStr);
 }
 
-
+async function base64ToString(context){
+  inputStr = context.event.text;
+  let Buffer = require('buffer').Buffer;
+  let buf = Buffer.from(inputStr, 'base64');
+  outStr = buf.toString(); 
+  await context.sendMessage(outStr, { parseMode: 'markdown' });
+}
 
 function RuleBased(context, { next }) {
     return router([
@@ -33,7 +40,8 @@ function RuleBased(context, { next }) {
 
 module.exports = async function App(context) {
 
-    toBase64(context);
+     stringToBase64(context);
+    //base64ToString(context);
 
     // if (context.event.isText) {
     //   if (context.event.text == "help1") {
