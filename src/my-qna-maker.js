@@ -1,3 +1,4 @@
+const { fireDB } = require('./firebase');
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -15,13 +16,13 @@ const axios_1 = __importDefault(require("axios"));
 const invariant_1 = __importDefault(require("invariant"));
 const RECOMMENDED_THRESHOLD = 50;
 
-function base64ToString(inputStr){
+function base64ToString(inputStr) {
     let Buffer = require('buffer').Buffer;
     let buf = Buffer.from(inputStr, 'base64');
-    let outStr = buf.toString(); 
+    let outStr = buf.toString();
     return outStr;
 }
-  
+
 module.exports = function qnaMaker({ resourceName, knowledgeBaseId, endpointKey, isTest, qnaId, scoreThreshold = RECOMMENDED_THRESHOLD, strictFilters, }) {
     invariant_1.default(typeof resourceName === 'string' && resourceName.length > 0, 'qna-maker: `resourceName` is a required parameter.');
     invariant_1.default(typeof knowledgeBaseId === 'string' && knowledgeBaseId.length > 0, 'qna-maker: `knowledgeBaseId` is a required parameter.');
@@ -58,8 +59,27 @@ module.exports = function qnaMaker({ resourceName, knowledgeBaseId, endpointKey,
                     else {
                         context.setAsNotHandled();
                     }
-                    
-                    yield context.sendText(base64ToString(topAnswer.answer), {parseMode: "html"});
+
+
+
+                    var isBase64 = require('is-base64');
+                    if (isBase64(topAnswer.answer)) {
+                        try {
+                            yield context.sendText(base64ToString(topAnswer.answer), { parseMode: "html" });
+                        } catch (error) {
+                            yield context.sendText("Parse Html Error: " + error);
+                            yield context.sendText("系統發生錯誤!!\n請您填寫回饋表單，幫助我們改善系統，謝謝。\nhttps://forms.gle/PMfMpt6coz8J6xbE8");
+                            let errorDoc = {
+                                error: error.toString(),
+                                topAnswer: topAnswer
+                            }
+
+                            let timeInMs = Date.now().toString();
+                            fireDB.collection("err").doc(timeInMs).set(errorDoc);
+                        }
+                    } else {
+                        yield context.sendText(topAnswer.answer);
+                    }
                 });
             };
         });

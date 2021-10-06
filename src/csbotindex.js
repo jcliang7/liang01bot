@@ -92,7 +92,7 @@ async function ShowCourseInfoKB(context) {
         { text: '實體/遠距日期' },
       ],
       [
-        { text: '回主選單'}
+        { text: '回主選單' }
       ]
     ],
     resizeKeyboard: true,
@@ -124,24 +124,28 @@ function RuleBased(context, { next }) {
 
 module.exports = async function App(context) {
   try {
-    if (context.event.isMessage){
-        let orimsg = context.event.message;
-        let msg = {
-          messageId: orimsg.messageId,
-          userid: orimsg.from.id,
-          firstName: orimsg.from.firstName,
-          lastName: orimsg.from.lastName,
-          date: orimsg.date,
-          text: orimsg.text
-        }
-         //console.log(msg);
-        fireDB.collection("comms").doc().set(msg)
-      }  
+    if (context.event.isMessage) {
+      let orimsg = context.event.message;
+      let msg = {
+        messageId: orimsg.messageId,
+        userid: orimsg.from.id,
+        firstName: orimsg.from.firstName,
+        lastName: orimsg.from.lastName,
+        date: orimsg.date,
+        text: orimsg.text
+      }
+      let docid = msg.date.toString();
+      //console.log(msg);
+      if (docid != null) {
+        fireDB.collection("comms").doc(docid).set(msg)
+      }
+    }
   } catch (error) {//Write code here when use console mode to do test.
-      //console.log("THISerror");
+    //console.log("THISerror");
+    context.sendText("fireBase Error", + error);
   }
-    
-  
+
+
   return chain([
     RuleBased,
     QnaMaker,
