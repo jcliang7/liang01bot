@@ -1,19 +1,73 @@
-
-const { router, telegram, text, route } = require('bottender/router');
+const { router, text, payload, route } = require('bottender/router');
 const { chain } = require('bottender');
-async function DefaultAction(context) {
-  await context.sendText('輸入\"help\"會顯示功能選單。\n目前只有\'課程資訊查詢\'有回應。');
-}
-// const qnaMaker = require('@bottender/qna-maker');
+//const qnaMaker = require('@bottender/qna-maker');
 const qnaMaker = require('./my-qna-maker');
+const { fireDB } = require('./firebase')
+
+fireDB.collection("comms").doc("user").get()
+.then(result=>{
+  console.log("I can get firestore data", result.data())
+})
+
+
+async function Unknown(context) {
+  await context.sendText('抱歉，我不清楚如何回答你的問題。');
+  //DefaultAction;
+  await context.sendText('輸入\"help\"會顯示功能選單。');
+}
+
+async function FSActions(context, props) {
+  // Your web app's Firebase configuration
+  // Initialize Firebase
+  await fireDB
+    .collection("posts")
+    .doc("test")
+    .get()
+    .then(result => {
+      context.sendText(result.data().name)		
+    })
+    .catch((e) => { 
+      context.sendText("Error") 
+    })
+
+  return props.next;
+}
+
+var gtable = false
+
+async function SheetActions(context, props) {
+  const options = {
+    sheetId: '1r6RV3jS5PPSMsheiEbCj-mJPD9t3JsQZx2UwED8MJaY',
+    sheetNumber: 1,
+  }
+  GSheetReader(options, results => {
+    let str = ""
+    Object.getOwnPropertyNames(results[0]).forEach(colName => {
+      str += colName
+    });    
+    context.sendText(str)
+  })
+  return props.next; 
+}
+
+async function OtherActions(context, props) {
+  if (context.event.text === 'hi') {
+    await context.sendText('New!');
+    return;
+  }
+  return props.next;
+}
+
 const QnaMaker = qnaMaker({
   resourceName: process.env.RESOURCE_NAME,
   knowledgeBaseId: process.env.KNOWLEDGE_BASE_ID,
   endpointKey: process.env.ENDPOINT_KEY,
   scoreThreshold: 70,
 });
-const { fireDB } = require('./firebase')
 
+async function DefaultAction(context) {
+  await context.sendText('輸入\"help\"會顯示功能選單。');
+}
 //顯示Inline kyeboard 的 function
 async function ShowInlineKB(context) {
   //keyboard寫進一個變數裡
@@ -60,15 +114,15 @@ async function ShowKB(context) {
       ],
       [
         {
-          text: '作業相關查詢',
+          text:'作業相關查詢',
           //查詢作業及分數等基本資料。
         },
         {
-          text: '作業參考答案',
+          text:'作業參考答案',
           //對於已過期的程式作業，提供解題思維及相關的參考答案。
         },
         {
-          text: '使用者回饋',
+          text:'使用者回饋',
           //讓使用者回饋使用心得、使用建議及系統錯誤。
         }
 
@@ -79,8 +133,11 @@ async function ShowKB(context) {
     selective: false
 
   };
-  await context.sendText('請選擇您要查詢的項目：', { replyMarkup });
+  await context.sendText('請選擇您想要查詢的項目：', { replyMarkup });
 };
+async function showSyntaxHint(context) {
+  await context.sendText('以＄開頭，後面輸入想要查詢的語法\n ex:$printf');
+}
 
 async function ShowCourseInfoKB(context) {
   const replyMarkup = {
@@ -92,7 +149,7 @@ async function ShowCourseInfoKB(context) {
         { text: '實體/遠距日期' },
       ],
       [
-        { text: '回主選單' }
+        { text: '回主選單'}
       ]
     ],
     resizeKeyboard: true,
@@ -102,25 +159,17 @@ async function ShowCourseInfoKB(context) {
   await context.sendText('計算機概論(一）\n授課教師：王佳盈\n開課時間：\n電機一甲/1-234/科學館B06\n電機一乙/2-234/科學館B06', { replyMarkup })
   //await context.sendText('test', { replyMarkup });
 };
-async function showSyntaxHint(context) {
-  await context.sendText('以＄開頭，後面輸入想要查詢的語法\n ex:$print');
-}
-async function showSyntax(context) {
-  await context.sendPhoto('https://i.imgur.com/r5PdC4o.png');
-}
-function RuleBased(context, { next }) {
+
+function RuleBased(context, {next}){
   return router([
     //text('課程資訊查詢', ShowInlineKB),
     text('課程資訊查詢', ShowCourseInfoKB),
-    text('語法解說', showSyntaxHint),
-    text('help', ShowKB),
-    text('回主選單', ShowKB),
+    //text('語法解說', showSyntaxHint),//搬到QnA執行。
+    text(['help', '回主選單'], ShowKB),
     // return the `next` action
-    text(/^\$/, showSyntax),
     route('*', next),
   ]);
 }
-
 
 module.exports = async function App(context) {
   try {
@@ -129,8 +178,8 @@ module.exports = async function App(context) {
       let msg = {
         messageId: orimsg.messageId,
         userid: orimsg.from.id,
-        //firstName: orimsg.from.firstName,
-        //lastName: orimsg.from.lastName,
+        // firstName: orimsg.from.firstName,
+        // lastName: orimsg.from.lastName,
         date: orimsg.date,
         text: orimsg.text
       }
@@ -149,35 +198,12 @@ module.exports = async function App(context) {
     let timeInMs = Date.now().toString();
     fireDB.collection("err").doc(timeInMs).set(errorDoc);
   }
-
-
   return chain([
     RuleBased,
-    QnaMaker,
-    DefaultAction
+    // SheetActions,
+    //FSActions,
+    OtherActions,
+    QnaMaker, //
+    Unknown,
   ]);
-
-
-
-
-  // if (context.event.isText) {
-  //   if (context.event.text == "help1") {
-  //     await context.sendMessage('請選擇：', { replyMarkup });
-  //   }
-  //   if (context.event.text == "help2") {
-  //     await context.sendMessage('Keyboard 不出來', { replyMarkup2 });
-  //   }
-  //   //await context.sendText(`received the text message: ${context.event.text}`);
-  // };
-
-
-
-  // await context.sendMessage('請選擇', { replyMarkup2 });
-
-  // await context.sendText('I success!');
-
 };
-
-
-
-
