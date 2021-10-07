@@ -78,7 +78,7 @@ module.exports = function qnaMaker({ resourceName, knowledgeBaseId, endpointKey,
                             fireDB.collection("err").doc(timeInMs).set(errorDoc);
                         }
                     } else {
-                        yield context.sendText(topAnswer.answer);
+                        yield context.sendText(topAnswer.answer, {parseMode: "html"});
                     }
                 });
             };

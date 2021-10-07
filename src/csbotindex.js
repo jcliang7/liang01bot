@@ -129,8 +129,8 @@ module.exports = async function App(context) {
       let msg = {
         messageId: orimsg.messageId,
         userid: orimsg.from.id,
-        firstName: orimsg.from.firstName,
-        lastName: orimsg.from.lastName,
+        //firstName: orimsg.from.firstName,
+        //lastName: orimsg.from.lastName,
         date: orimsg.date,
         text: orimsg.text
       }
@@ -142,7 +142,12 @@ module.exports = async function App(context) {
     }
   } catch (error) {//Write code here when use console mode to do test.
     //console.log("THISerror");
-    context.sendText("fireBase Error", + error);
+    let errorDoc = {
+      error: error.toString(),
+    }
+
+    let timeInMs = Date.now().toString();
+    fireDB.collection("err").doc(timeInMs).set(errorDoc);
   }
 
 
