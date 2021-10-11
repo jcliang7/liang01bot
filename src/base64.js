@@ -16,12 +16,12 @@ async function stringToBase64(context) {
     await context.sendText(outStr);
 }
 
-async function base64ToString(context){
-  inputStr = context.event.text;
-  let Buffer = require('buffer').Buffer;
-  let buf = Buffer.from(inputStr, 'base64');
-  outStr = buf.toString(); 
-  await context.sendMessage(outStr, { parseMode: 'markdown' });
+async function base64ToString(context) {
+    inputStr = context.event.text;
+    let Buffer = require('buffer').Buffer;
+    let buf = Buffer.from(inputStr, 'base64');
+    outStr = buf.toString();
+    await context.sendMessage(outStr, { parseMode: 'html' });
 }
 
 function RuleBased(context, { next }) {
@@ -39,9 +39,13 @@ function RuleBased(context, { next }) {
 
 
 module.exports = async function App(context) {
-
-     stringToBase64(context);
-    //base64ToString(context);
+    var isBase64 = require('is-base64');
+    let str = context.event.text;
+    if (isBase64(str)) {
+        base64ToString(context);
+    } else {
+        stringToBase64(context);
+    }
 
     // if (context.event.isText) {
     //   if (context.event.text == "help1") {
