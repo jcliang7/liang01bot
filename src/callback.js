@@ -17,6 +17,7 @@ const QnaMaker = qnaMaker({
   scoreThreshold: 70,
 });
 
+
 async function DefaultAction(context) {
   await context.sendText('輸入\"help\"會顯示功能選單。');
 }
@@ -48,93 +49,66 @@ async function ShowInlineKB(context) {
   await context.sendText('請選擇：', { replyMarkup });
 };
 
-async function ShowKB(context) {
+async function callBackCallKeyboard(context) {
+  // let str = context.event.callbackQuery.data;
+  // let myObj = {
+  //   keyboard: [[{ text: 'row1' }], [{ text: 'row2' }], [{ text: 'row3' }],
+  //   [{ text: 'row4' }], [{ text: 'row5' }], [{ text: 'row6' }]],
+  // };
+  // let myStr = JSON.stringify(myObj);
+  // myStr = '<b>123</b>';
+  // let isOkJson = 1;
+  // try {
+  //   console.log("try");
+  //   JSON.parse(myStr)
+  // } catch (e) {
+  //   isOkJson = 0;
+  //   console.log("catch" + e);
+  // }
+  // if (isOkJson) {
+  //   const replyMarkup = JSON.parse(myStr);
+  //   await context.sendText('請選擇您想要查詢的項目：', { replyMarkup });
+  // } else {
+  //   await context.sendText("error");
+  // }
   const replyMarkup = {
     keyboard: [
-      [
-        {
-          text: '語法解說',
-          //學生輸入關鍵字，機器人提供程式語法的使用說明及範例程式碼。
-        },
-        {
-          text: '課程資訊查詢',
-          //課程相關說明與規定、老師助教聯絡資訊、實體與非同步課程時間等基本資料查詢。
-        },
-        {
-          text: '常見問題解答',
-          //提供一些基本範例，以及相關的解題思維
-        }
-      ],
-      [
-        {
-          text:'作業相關查詢',
-          //查詢作業及分數等基本資料。
-        },
-        {
-          text:'作業參考答案',
-          //對於已過期的程式作業，提供解題思維及相關的參考答案。
-        },
-        {
-          text:'使用者回饋',
-          //讓使用者回饋使用心得、使用建議及系統錯誤。
-        }
-
-      ]
-    ],
-    resizeKeyboard: true,
-    oneTimeKeyboard: true,
-    selective: false
-
+      [{ text: '基本輸出' }],
+      [{ text: '印出字串' }],
+      [{ text: '字串輸出' }],
+      [{ text: '長方體體積' }],
+      [{ text: '大寫換小寫' }],
+      [{ text: '圓柱表面積' }],
+      [{ text: '整數除法' }],
+      [{ text: '三數排序' }],
+      [{ text: '四數排序' }],
+      [{ text: '判斷及調整成績' }],
+      [{ text: '判斷月份' }],
+    ]
   };
   await context.sendText('請選擇您想要查詢的項目：', { replyMarkup });
 };
-async function showSyntaxHint(context) {
-  await context.sendText('以＄開頭，後面輸入想要查詢的語法\n ex:$printf');
-}
+// let jsonStr = '{"keyboard": [[{"text": "row1"}],[{"text": "row2"}]]}';
+
 async function HandleCallbackQuery(context) {
-    console.log("==========Callback Query==========");
-    console.log(context.event.callbackQuery.data);
-
-    await context.sendText(context.event.callbackQuery.data);
-    console.log("==========Callback Query End==========");
+  console.log("==========Callback Query==========");
+  console.log(context.event.callbackQuery.data);
+  //await context.sendText(context.event.callbackQuery.data);
+  callBackCallKeyboard(context);
+  console.log("==========Callback Query End==========");
 }
-async function ShowCourseInfoKB(context) {
-  const replyMarkup = {
-    keyboard: [
-      [
-        { text: '老師資訊' },
-        { text: '助教資訊' },
-        { text: '計分方式' },
-        { text: '實體/遠距日期' },
-      ],
-      [
-        { text: '回主選單'}
-      ]
-    ],
-    resizeKeyboard: true,
-    oneTimeKeyboard: true,
-    selective: false
-  };
-  await context.sendText('計算機概論(一）\n授課教師：王佳盈\n開課時間：\n電機一甲/1-234/科學館B06\n電機一乙/2-234/科學館B06', { replyMarkup })
-  //await context.sendText('test', { replyMarkup });
-};
 
-function RuleBased(context, {next}){
+
+function RuleBased(context, { next }) {
   return router([
     text('call', ShowInlineKB),
-    // if (context.event.callBackQuary)
     telegram.callbackQuery(HandleCallbackQuery),
-    //text('課程資訊查詢', ShowInlineKB),
-    //text('課程資訊查詢', ShowCourseInfoKB),
-    //text('語法解說', showSyntaxHint),//搬到QnA執行。
-    //text(['help', '回主選單'], ShowKB),
-    // return the `next` action
     route('*', next),
   ]);
 }
 
 module.exports = async function App(context) {
-   return chain([
+  return chain([
     RuleBased,
     // SheetActions,
     //FSActions,
