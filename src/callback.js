@@ -72,23 +72,68 @@ async function callBackCallKeyboard(context) {
   //   await context.sendText("error");
   // }
   const replyMarkup = {
+    myStr:"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:",
     keyboard: [
-      [{ text: '基本輸出' }],
-      [{ text: '印出字串' }],
-      [{ text: '字串輸出' }],
-      [{ text: '長方體體積' }],
-      [{ text: '大寫換小寫' }],
-      [{ text: '圓柱表面積' }],
-      [{ text: '整數除法' }],
-      [{ text: '三數排序' }],
-      [{ text: '四數排序' }],
-      [{ text: '判斷及調整成績' }],
-      [{ text: '判斷月份' }],
-    ]
+      [{ text: '基本輸出' }, { text: '印出字串' }, { text: '字串輸出' }],
+
+      [{ text: '長方體體積' }, { text: '大寫換小寫' }, { text: '圓柱表面積' }, { text: '整數除法' }],
+
+      [{ text: '三數排序' }, { text: '四數排序' }, { text: '判斷及調整成績' }, { text: '判斷月份' }],
+      
+      // [{text:'btn'},{text:'btn'}, {text:'btn'}, {text:'btn'}],
+      // [{text:'btn'},{text:'btn'}, {text:'btn'}, {text:'btn'}],
+      [{text: '回主選單'}],
+    ],
+    resizeKeyboard: true,
+    oneTimeKeyboard: true,
+    selective: false
+  };
+  
+  let str = JSON.stringify(replyMarkup);
+  await context.sendText(str, { replyMarkup });
+};
+
+async function ShowKB(context) {
+  const replyMarkup = {
+    keyboard: [
+      [
+        {
+          text: '語法解說',
+          //學生輸入關鍵字，機器人提供程式語法的使用說明及範例程式碼。
+        },
+        {
+          text: '課程資訊查詢',
+          //課程相關說明與規定、老師助教聯絡資訊、實體與非同步課程時間等基本資料查詢。
+        },
+        {
+          text: '常見問題解答',
+          //提供一些基本範例，以及相關的解題思維
+        }
+      ],
+      [
+        {
+          text:'作業相關查詢',
+          //查詢作業及分數等基本資料。
+        },
+        {
+          text:'作業參考答案',
+          //對於已過期的程式作業，提供解題思維及相關的參考答案。
+        },
+        {
+          text:'使用者回饋',
+          //讓使用者回饋使用心得、使用建議及系統錯誤。
+        }
+
+      ]
+    ],
+    resizeKeyboard: true,
+    oneTimeKeyboard: true,
+    selective: false
+
   };
   await context.sendText('請選擇您想要查詢的項目：', { replyMarkup });
 };
-// let jsonStr = '{"keyboard": [[{"text": "row1"}],[{"text": "row2"}]]}';
+
 
 async function HandleCallbackQuery(context) {
   console.log("==========Callback Query==========");
@@ -103,6 +148,7 @@ function RuleBased(context, { next }) {
   return router([
     text('call', ShowInlineKB),
     telegram.callbackQuery(HandleCallbackQuery),
+    text(['help', '回主選單'], ShowKB),
     route('*', next),
   ]);
 }

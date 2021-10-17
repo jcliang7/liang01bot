@@ -23,6 +23,18 @@ function base64ToString(inputStr) {
     return outStr;
 }
 
+function isJsonObj(str) {
+    try {
+        //   console.log("try");
+        JSON.parse(str)
+    } catch (e) {
+        //   isOkJson = 0;
+        console.log("str is not a JSON String:\n" + e);
+        return false;
+    }
+    return true;
+}
+
 module.exports = function qnaMaker({ resourceName, knowledgeBaseId, endpointKey, isTest, qnaId, scoreThreshold = RECOMMENDED_THRESHOLD, strictFilters, }) {
     invariant_1.default(typeof resourceName === 'string' && resourceName.length > 0, 'qna-maker: `resourceName` is a required parameter.');
     invariant_1.default(typeof knowledgeBaseId === 'string' && knowledgeBaseId.length > 0, 'qna-maker: `knowledgeBaseId` is a required parameter.');
@@ -78,7 +90,15 @@ module.exports = function qnaMaker({ resourceName, knowledgeBaseId, endpointKey,
                             fireDB.collection("err").doc(timeInMs).set(errorDoc);
                         }
                     } else {
-                        yield context.sendText(topAnswer.answer, {parseMode: "html"});
+                        //if first char is '{'
+                        //check if the str is a json str
+                        let str = topAnswer.answer;
+                        if (isJsonObj(str)) {
+                            const replyMarkup = JSON.parse(str);
+                            yield context.sendText(replyMarkup.myStr, { replyMarkup });
+                        } else {
+                            yield context.sendText(topAnswer.answer, { parseMode: "html" });
+                        }
                     }
                 });
             };
