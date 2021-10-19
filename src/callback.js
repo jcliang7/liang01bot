@@ -80,7 +80,8 @@ async function callBackCallKeyboard(context) {
 
       [{ text: '三數排序' }, { text: '四數排序' }, { text: '判斷及調整成績' }, { text: '判斷月份' }],
       
-      // [{text:'btn'},{text:'btn'}, {text:'btn'}, {text:'btn'}],
+      [{ text: '數字平方和' }, { text:'求數字和' }, { text:'質數判別' }, { text:'九九乘法表(單排)' }],
+            // [{text:'btn'},{text:'btn'}, {text:'btn'}, {text:'btn'}],
       // [{text:'btn'},{text:'btn'}, {text:'btn'}, {text:'btn'}],
       [{text: '回主選單'}],
     ],

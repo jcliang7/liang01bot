@@ -62,7 +62,7 @@ const QnaMaker = qnaMaker({
   resourceName: process.env.RESOURCE_NAME,
   knowledgeBaseId: process.env.KNOWLEDGE_BASE_ID,
   endpointKey: process.env.ENDPOINT_KEY,
-  scoreThreshold: 70,
+  scoreThreshold: 40,
 });
 
 async function DefaultAction(context) {
