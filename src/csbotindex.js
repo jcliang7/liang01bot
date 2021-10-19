@@ -4,7 +4,7 @@ const { chain } = require('bottender');
 const qnaMaker = require('./my-qna-maker');
 const { fireDB } = require('./firebase')
 
-fireDB.collection("comms").doc("user").get()
+fireDB.collection("start").doc("user").get()
 .then(result=>{
   console.log("I can get firestore data", result.data())
 })
