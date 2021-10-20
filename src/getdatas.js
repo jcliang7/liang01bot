@@ -2,37 +2,76 @@ const { router, text, payload, route } = require('bottender/router');
 const { chain } = require('bottender');
 const { fireDB } = require('./firebase')
 
-fireDB.collection("start").doc("user").get()
-    .then(result => {
-        console.log("I can get firestore data", result.data())
-    })
-
+// fireDB.collection("start").doc("user").get()
+//     .then(result => {
+//         console.log("I can get firestore data", result.data())
+//     })
+var errs = {};
 var fs = require('fs');
 async function getFirebaseData(context) {
-    let str;
-    fireDB.collection("err").get()
-        .then(result => {
-            console.log("I can get firestore data ", typeof (result));
-            
-            //str = JSON.parse(result);
-        })
-    //console.log(typeof (str));
+    errs = {};
+    const citiesRef = fireDB.collection('comms');
+    const snapshot = await citiesRef.get();
+    snapshot.forEach(doc => {
+        errs[doc.id] = doc.data();
+    });
+    // console.log(errs);
+    try {
+        tempData = fs.writeFileSync('./dataBak/comms_20211020.txt', JSON.stringify(errs));
+        console.log("successful!!!!!!!!!!!!!!!");
+    } catch (e) {
+        console.log(e);
+    }
 
-
-    // fs.writeFile('./dataBak/err_20191019.txt', str, function (err) {
-    //     if (err) {
-    //         console.log(err);
-
-    //     }
-    //     else
-    //         console.log('Write operation complete.');
-    // });
-
-    await context.sendText('輸入\"help\"會顯示功能選單。\n目前只有\'課程資訊查詢\'有回應。');
-
-
+    // fs.writeFile('./dataBak/err_20211201.txt', "abcdefg");
+    await context.sendText('getData Over!!');
 }
 
+const converter = require('json-2-csv');
+async function txtToCsv() {
+    let readData, objData;
+    try {
+        readData = fs.readFileSync('./dataBak/comms_20211020.txt', 'utf8');
+        // console.log(data)
+        objData = JSON.parse(readData);
+    } catch (err) {
+        console.error(err)
+    }
+    let keys = Object.keys(objData);
+    //console.log(objData[keys[0]]);
+    let arrData = [];
+    for (let i = 0; i < keys.length; i++) {
+        // arrData.push(JSON.stringify(objData[keys[i]]));
+        arrData.push(objData[keys[i]]);
+    }
+    console.log(arrData[0]);
+    converter.json2csv(arrData, (err, csv) => {
+        if (err) {
+            throw err;
+        }
+    
+        // print CSV string
+        //console.log(csv);
+    
+        // write CSV to a file
+        fs.writeFileSync('./dataBak/comms.csv', csv);
+        
+    });
+    //console.log(objData.keys());
+}
+
+
+// const fs = require('fs')
+
+// const content = 'Some content!'
+
+// fs.writeFile('/Users/joe/test.txt', content, err => {
+//   if (err) {
+//     console.error(err)
+//     return
+//   }
+//   //file written successfully
+// })
 
 function RuleBased(context, { next }) {
     return router([
@@ -44,6 +83,7 @@ function RuleBased(context, { next }) {
         // return the `next` action
         // text(/^\$/, showSyntax),
         text('getdata', getFirebaseData),
+        text('tocsv', txtToCsv),
         route('*', next),
     ]);
 }

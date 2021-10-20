@@ -17,6 +17,7 @@
     "firebase-admin": "^9.11.1",
     "is-base64": "^1.1.0",
     "jest": "27.0.6",
+    "json-2-csv": "^3.14.4",
     "prettier": "2.3.2"
   }
 }
