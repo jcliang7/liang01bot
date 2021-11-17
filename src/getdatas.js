@@ -13,11 +13,14 @@ async function getFirebaseData(context) {
     const citiesRef = fireDB.collection('comms');
     const snapshot = await citiesRef.get();
     snapshot.forEach(doc => {
+        // if(doc.data().date > 1632655031){
+        //     errs[doc.id] = doc.data();
+        // }
         errs[doc.id] = doc.data();
     });
     // console.log(errs);
     try {
-        tempData = fs.writeFileSync('./dataBak/comms_20211020.txt', JSON.stringify(errs));
+        tempData = fs.writeFileSync('./dataBak/comms_20211117_all.txt', JSON.stringify(errs));
         console.log("successful!!!!!!!!!!!!!!!");
     } catch (e) {
         console.log(e);
@@ -31,7 +34,7 @@ const converter = require('json-2-csv');
 async function txtToCsv() {
     let readData, objData;
     try {
-        readData = fs.readFileSync('./dataBak/comms_20211020.txt', 'utf8');
+        readData = fs.readFileSync('./dataBak/comms_20211117_all.txt', 'utf8');
         // console.log(data)
         objData = JSON.parse(readData);
     } catch (err) {
@@ -54,7 +57,7 @@ async function txtToCsv() {
         //console.log(csv);
     
         // write CSV to a file
-        fs.writeFileSync('./dataBak/comms.csv', csv);
+        fs.writeFileSync('./dataBak/comms_20211117_all.csv', csv);
         
     });
     //console.log(objData.keys());
