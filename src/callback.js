@@ -83,7 +83,9 @@ async function callBackCallKeyboard(context) {
       [{ text: '數字平方和' }, { text:'求數字和' }, { text:'質數判別' }, { text:'九九乘法表(單排)' }],
       
       [{ text: '求兩數和 (N次)'}, { text: '求兩數和 (非零)' }, { text: '求兩數和 (檔尾)' }, { text: '求兩個數的最大公因數' }, { text: '求位數和' }],
-       [{ text: '印字串及其長度'}, { text: '字串大小寫個數' }, { text: '數列兩兩對調' }, { text: '矩陣轉置' }, { text: '矩陣旋轉' }],  
+         [{ text: '倒印數列'}, { text: '找最大值及索引' }, { text: '向量內積' }],
+       [{ text: '印字串及其長度'}, { text: '字串大小寫個數' }, { text: '數列兩兩對調' }, { text: '矩陣轉置' }, { text: '矩陣旋轉' }],
+        [{ text: '1+(1+2)+(1+2+3)+...'}, { text: '印三角形函數' }, { text: '陣列平均值' }, { text: '3n+1 問題' }],
       [{text: '回主選單'}],
     ],
     resizeKeyboard: true,
