@@ -86,6 +86,7 @@ async function callBackCallKeyboard(context) {
          [{ text: '倒印數列'}, { text: '找最大值及索引' }, { text: '向量內積' }],
        [{ text: '印字串及其長度'}, { text: '字串大小寫個數' }, { text: '數列兩兩對調' }, { text: '矩陣轉置' }, { text: '矩陣旋轉' }],
         [{ text: '1+(1+2)+(1+2+3)+...'}, { text: '印三角形函數' }, { text: '陣列平均值' }, { text: '3n+1 問題' }],
+        [{ text: '費氏數列'}, { text: '爬樓梯' }, { text: '河內塔問題1' }, { text: '河內塔問題2' }],
       [{text: '回主選單'}],
     ],
     resizeKeyboard: true,
