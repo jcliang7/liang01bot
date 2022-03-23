@@ -1,5 +1,7 @@
 # Help
 
+## Object
+
 ```javascript
 {"myStr":"請選擇您想要查詢的項目：","keyboard":[
       [
@@ -12,14 +14,14 @@
           //課程相關說明與規定、老師助教聯絡資訊、實體與非同步課程時間等基本資料查詢。
         },
         {
-          text: '常見問題解答',
-          //提供一些基本範例，以及相關的解題思維
+          text: ' ',
+          //常見問題解答： 提供一些基本範例，以及相關的解題思維
         }
       ],
       [
         {
-          text:'作業相關查詢',
-          //查詢作業及分數等基本資料。
+          text:'每週動動腦',
+          //原本：作業相關查詢：查詢作業及分數等基本資料。
         },
         {
           text:'作業參考答案',
@@ -37,9 +39,32 @@
     selective: false}
 ```
 
+## Json String
 
+{"myStr":"請選擇您想要查詢的項目：","keyboard":[[{"text":"語法解說"},{"text":"課程資訊查詢"},{"text":" "}],[{"text":"每週動動腦"},{"text":"作業參考答案"},{"text":"使用者回饋"}]],"resizeKeyboard":true,"oneTimeKeyboard":true,"selective":false}
 
 # 作業參考答案
+
+```javascript
+{
+    myStr:"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:",
+    keyboard: [
+      [{ text: '全部題目' }],
+
+      [{ text: '110-1' }, { text: '110-2' }],
+
+      [{text: '回主選單'}],
+    ],
+    resizeKeyboard: true,
+    oneTimeKeyboard: true,
+    selective: false
+};
+
+```
+
+{"myStr":"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:","keyboard":[[{"text":"全部題目"}],[{"text":"110-1"},{"text":"110-2"}],[{"text":"回主選單"}]],"resizeKeyboard":true,"oneTimeKeyboard":true,"selective":false}
+
+# 110-1
 
 ## Objedt
 
@@ -63,9 +88,7 @@
     oneTimeKeyboard: true,
     selective: false
   };
-  let str = JSON.stringify(replyMarkup);
-  await context.sendText(str, { replyMarkup });
-};
+
 ```
 
 ## JSON String
@@ -380,3 +403,116 @@
 ## JSON String
 
 {"myStr":"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:","keyboard":[[{"text":"開燈問題"},{"text":"生成元"}],[{"text":"鍵盤移位"},{"text":"蛇形填數"}],[{"text":"作業參考答案"}],[{"text":"回主選單"}]],"resizeKeyboard":true,"oneTimeKeyboard":true,"selective":false}
+
+# 110-2
+
+## Objedt
+
+```javascript
+{
+    myStr:"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:",
+    keyboard: [
+      [{ text: '全部題目' }],
+
+      [{ text: 'UU01' }, { text: 'UU02' }, { text: 'UU03' }],
+
+      [{ text: 'UU04' }, { text: ' ' }, { text: ' ' }],
+      
+      //[{ text: 'U07' }, { text: 'U08' }, { text: 'U09' }],
+
+      //[{text:'U10'}, {text:' '}, {text:' '}],
+
+      [{text: '回主選單'}],
+    ],
+    resizeKeyboard: true,
+    oneTimeKeyboard: true,
+    selective: false
+  };
+
+```
+
+{"myStr":"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:","keyboard":[[{"text":"全部題目"}],[{"text":"UU01"},{"text":"UU02"},{"text":"UU03"}],[{"text":"UU04"},{"text":" "},{"text":" "}],[{"text":"回主選單"}]],"resizeKeyboard":true,"oneTimeKeyboard":true,"selective":false}
+
+# UU01
+
+```javascript
+{
+    myStr:"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:",
+    keyboard: [
+      [{ text: '基本輸出'}, { text: '長方體體積' }],
+      [{ text: '整數除法' }, { text: '判斷大小月' }],
+      [{ text: '數字平方和' }, { text: '求兩數和(檔尾)' }],
+      // [{text:'btn'},{text:'btn'}, {text:'btn'}, {text:'btn'}],
+      [{text: '回110-2'}],
+      [{text: '回主選單'}],
+    ],
+    resizeKeyboard: true,
+    oneTimeKeyboard: true,
+    selective: false
+  };
+```
+
+{"myStr":"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:","keyboard":[[{"text":"基本輸出"},{"text":"長方體體積"}],[{"text":"整數除法"},{"text":"判斷大小月"}],[{"text":"數字平方和"},{"text":"求兩數和(檔尾)"}],[{"text":"回110-2"}],[{"text":"回主選單"}]],"resizeKeyboard":true,"oneTimeKeyboard":true,"selective":false}
+
+# UU02
+
+```javascript
+{
+    myStr:"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:",
+    keyboard: [
+      [{ text: '倒印數列'}, { text: '向量內積' }],
+      [{ text: '印字串及其長度' }, { text: '數列兩兩對調' }],
+      [{ text: '字串大小寫個數' }, { text: '矩陣轉置' }],
+      // [{text:'btn'},{text:'btn'}, {text:'btn'}, {text:'btn'}],
+      [{text: '回110-2'}],
+      [{text: '回主選單'}],
+    ],
+    resizeKeyboard: true,
+    oneTimeKeyboard: true,
+    selective: false
+  };
+```
+
+{"myStr":"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:","keyboard":[[{"text":"倒印數列"},{"text":"向量內積"}],[{"text":"印字串及其長度"},{"text":"數列兩兩對調"}],[{"text":"字串大小寫個數"},{"text":"矩陣轉置"}],[{"text":"回110-2"}],[{"text":"回主選單"}]],"resizeKeyboard":true,"oneTimeKeyboard":true,"selective":false}
+
+# UU03
+
+```javascript
+{
+    myStr:"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:",
+    keyboard: [
+      [{ text: '印三角形函數'}, { text: '陣列平均值' }],
+      [{ text: '爬樓梯' }, { text: '河內塔問題1' }],
+      //[{ text: '字串大小寫個數' }, { text: '矩陣轉置' }],
+      // [{text:'btn'},{text:'btn'}, {text:'btn'}, {text:'btn'}],
+      [{text: '回110-2'}],
+      [{text: '回主選單'}],
+    ],
+    resizeKeyboard: true,
+    oneTimeKeyboard: true,
+    selective: false
+  };
+```
+
+{"myStr":"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:","keyboard":[[{"text":"印三角形函數"},{"text":"陣列平均值"}],[{"text":"爬樓梯"},{"text":"河內塔問題1"}],[{"text":"回110-2"}],[{"text":"回主選單"}]],"resizeKeyboard":true,"oneTimeKeyboard":true,"selective":false}
+
+# UU04
+
+```javascript
+{
+    myStr:"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:",
+    keyboard: [
+      [{ text: '排序（10數，大到小）'}, { text: '排序(Ｎ個數)' }],
+      [{ text: '反數相加' }, { text: '得分' }],
+      //[{ text: '字串大小寫個數' }, { text: '矩陣轉置' }],
+      // [{text:'btn'},{text:'btn'}, {text:'btn'}, {text:'btn'}],
+      [{text: '回110-2'}],
+      [{text: '回主選單'}],
+    ],
+    resizeKeyboard: true,
+    oneTimeKeyboard: true,
+    selective: false
+  };
+```
+
+{"myStr":"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:","keyboard":[[{"text":"排序（10數，大到小）"},{"text":"排序(Ｎ個數)"}],[{"text":"反數相加"},{"text":"得分"}],[{"text":"回110-2"}],[{"text":"回主選單"}]],"resizeKeyboard":true,"oneTimeKeyboard":true,"selective":false}
