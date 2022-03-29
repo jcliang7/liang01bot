@@ -416,7 +416,7 @@
 
       [{ text: 'UU01' }, { text: 'UU02' }, { text: 'UU03' }],
 
-      [{ text: 'UU04' }, { text: ' ' }, { text: ' ' }],
+      [{ text: 'UU04' }, { text: 'UU05' }, { text: ' ' }],
       
       //[{ text: 'U07' }, { text: 'U08' }, { text: 'U09' }],
 
@@ -431,7 +431,7 @@
 
 ```
 
-{"myStr":"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:","keyboard":[[{"text":"全部題目"}],[{"text":"UU01"},{"text":"UU02"},{"text":"UU03"}],[{"text":"UU04"},{"text":" "},{"text":" "}],[{"text":"回主選單"}]],"resizeKeyboard":true,"oneTimeKeyboard":true,"selective":false}
+{"myStr":"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:","keyboard":[[{"text":"全部題目"}],[{"text":"UU01"},{"text":"UU02"},{"text":"UU03"}],[{"text":"UU04"},{"text":"UU05"},{"text":" "}],[{"text":"回主選單"}]],"resizeKeyboard":true,"oneTimeKeyboard":true,"selective":false}
 
 # UU01
 
@@ -516,3 +516,25 @@
 ```
 
 {"myStr":"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:","keyboard":[[{"text":"排序（10數，大到小）"},{"text":"排序(Ｎ個數)"}],[{"text":"反數相加"},{"text":"得分"}],[{"text":"回110-2"}],[{"text":"回主選單"}]],"resizeKeyboard":true,"oneTimeKeyboard":true,"selective":false}
+
+# UU05
+
+```javascript
+{
+    myStr:"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:",
+    keyboard: [
+      [{ text: '成績指標'}, { text: '排序 (10數，特殊規則）' }],
+      [{ text: '書本的位置' }, { text: ' ' }],
+      //[{ text: '字串大小寫個數' }, { text: '矩陣轉置' }],
+      // [{text:'btn'},{text:'btn'}, {text:'btn'}, {text:'btn'}],
+      [{text: '回110-2'}],
+      [{text: '回主選單'}],
+    ],
+    resizeKeyboard: true,
+    oneTimeKeyboard: true,
+    selective: false
+  };
+```
+
+{"myStr":"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:","keyboard":[[{"text":"成績指標"},{"text":"排序 (10數，特殊規則）"}],[{"text":"書本的位置"},{"text":" "}],[{"text":"回110-2"}],[{"text":"回主選單"}]],"resizeKeyboard":true,"oneTimeKeyboard":true,"selective":false}
+
