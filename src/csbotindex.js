@@ -186,7 +186,7 @@ module.exports = async function App(context) {
       let docid = msg.date.toString();
       //console.log(msg);
       if (docid != null) {
-        fireDB.collection("comms").doc(docid).set(msg)
+        //fireDB.collection("comms").doc(docid).set(msg)
       }
     }
   } catch (error) {//Write code here when use console mode to do test.
