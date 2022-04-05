@@ -96,43 +96,40 @@ async function ShowInlineKB(context) {
 };
 
 async function ShowKB(context) {
-  const replyMarkup = {
-    keyboard: [
-      [
-        {
-          text: '語法解說',
-          //學生輸入關鍵字，機器人提供程式語法的使用說明及範例程式碼。
-        },
-        {
-          text: '課程資訊查詢',
-          //課程相關說明與規定、老師助教聯絡資訊、實體與非同步課程時間等基本資料查詢。
-        },
-        {
-          text: '常見問題解答',
-          //提供一些基本範例，以及相關的解題思維
-        }
-      ],
-      [
-        {
-          text:'作業相關查詢',
-          //查詢作業及分數等基本資料。
-        },
-        {
-          text:'作業參考答案',
-          //對於已過期的程式作業，提供解題思維及相關的參考答案。
-        },
-        {
-          text:'使用者回饋',
-          //讓使用者回饋使用心得、使用建議及系統錯誤。
-        }
-
-      ]
+  const replyMarkup = {"myStr":"請選擇您想要查詢的項目：","keyboard":[
+    [
+      {
+        text: '語法解說',
+        //學生輸入關鍵字，機器人提供程式語法的使用說明及範例程式碼。
+      },
+      {
+        text: '課程資訊查詢',
+        //課程相關說明與規定、老師助教聯絡資訊、實體與非同步課程時間等基本資料查詢。
+      },
+      {
+        text: ' ',
+        //常見問題解答： 提供一些基本範例，以及相關的解題思維
+      }
     ],
-    resizeKeyboard: true,
-    oneTimeKeyboard: true,
-    selective: false
+    [
+      {
+        text:'每週動動腦',
+        //原本：作業相關查詢：查詢作業及分數等基本資料。
+      },
+      {
+        text:'作業參考答案',
+        //對於已過期的程式作業，提供解題思維及相關的參考答案。
+      },
+      {
+        text:'使用者回饋',
+        //讓使用者回饋使用心得、使用建議及系統錯誤。
+      }
 
-  };
+    ]
+  ],
+  resizeKeyboard: true,
+  oneTimeKeyboard: true,
+  selective: false};
   await context.sendText('請選擇您想要查詢的項目：', { replyMarkup });
 };
 async function showSyntaxHint(context) {
