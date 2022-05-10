@@ -411,7 +411,7 @@
 
 ## Objedt
 
-{"myStr":"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:","keyboard":[[{"text":"全部題目"}],[{"text":"UU01"},{"text":"UU02"},{"text":"UU03"}],[{"text":"UU04"},{"text":"UU05"},{"text":"UU06"}],[{"text":"UU07"},{"text":"UU08"},{"text":" "}],[{"text":"回主選單"}]],"resizeKeyboard":true,"oneTimeKeyboard":true,"selective":false}
+{"myStr":"請選擇，也可以直接輸入「題目名稱」或 「關鍵字」:","keyboard":[[{"text":"全部題目"}],[{"text":"UU01"},{"text":"UU02"},{"text":"UU03"}],[{"text":"UU04"},{"text":"UU05"},{"text":"UU06"}],[{"text":"UU07"},{"text":"UU08"},{"text":"UU09"}],[{"text":"回主選單"}]],"resizeKeyboard":true,"oneTimeKeyboard":true,"selective":false}
 
 # UU01
 
